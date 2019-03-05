@@ -1,5 +1,13 @@
 set number	" Показывать номера строк
 syntax on	" Включить подсветку синтаксиса
+set scrolloff=3
+set wrap
+set linebreak
+set showmatch
+set autoread
+set confirm 
+" set virtualedit=all " Erlauben in auserhalb der Zeile ausgehen
+set noswapfile
 set incsearch   " Поиск в процессе набора
 set hlsearch	" Подсвечивание результатов поиска
 set ignorecase	" умная зависимость от регистра. Детали `:h smartcase`
@@ -24,51 +32,44 @@ highlight CursorLine term=none cterm=none
 set history=200
 set wildmenu
 set clipboard=unnamed
+set t_Co=256
 
-au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
-au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
-hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
+xnoremap p pgvy
+filetype off
 
-let g:currentmode={
-\ 'n'  : 'Normal',
-\ 'no' : 'Normal·Operator Pending',
-\ 'v'  : 'Visual',
-\ 'V'  : 'V·Line',
-\ '^V' : 'V·Block',
-\ 's'  : 'Select',
-\ 'S'  : 'S·Line',
-\ '^S' : 'S·Block',
-\ 'i'  : 'Insert',
-\ 'R'  : 'Replace',
-\ 'Rv' : 'V·Replace',
-\ 'c'  : 'Command',
-\ 'cv' : 'Vim Ex',
-\ 'ce' : 'Ex',
-\ 'r'  : 'Prompt',
-\ 'rm' : 'More',
-\ 'r?' : 'Confirm',
-\ '!'  : 'Shell',
-\ 't'  : 'Terminal'
-\}
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
 
+call vundle#begin()
+filetype plugin indent on
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+let g:airline#extensions#tabline#enabled = 1
+
+" :let g:airline_theme='base16_ashes'
+
+" Settings Vim-Airline
 set laststatus=2
-set noshowmode
-set statusline=
-set statusline+=%0*\ %n\                                 " Buffer number
-set statusline+=%1*\ %<%F%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
-set statusline+=%3*│                                     " Separator
-set statusline+=%2*\ %Y\                                 " FileType
-set statusline+=%3*│                                     " Separator
-set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
-set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
-set statusline+=%=                                       " Right Side
-set statusline+=%2*\ col:\ %02v\                         " Colomn number
-set statusline+=%3*│                                     " Separator
-set statusline+=%1*\ ln:\ %02l/%L\ (%3p%%)\              " Line number / total lines, percentage of document
-set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
-
-
-hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
-hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
-hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
-hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
+let g:airline_theme='badwolf'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
