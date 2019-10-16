@@ -1,20 +1,32 @@
-set number	" Показывать номера строк
-syntax on	" Включить подсветку синтаксиса
-set incsearch   " Поиск в процессе набора
-set hlsearch	" Подсвечивание результатов поиска
-set ignorecase	" умная зависимость от регистра. Детали `:h smartcase`
+set number	
+"set termguicolors
+"let ayucolor="light"  " for light version of theme
+"let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="dark"   " for dark version of theme
+"colorscheme ayu
+colorscheme jellybeans
+syntax on	
+set scrolloff=3
+set wrap
+set showmatch
+set autoread
+set confirm 
+set noswapfile
+set incsearch 
+set hlsearch	
+set ignorecase	
 set smartcase
 set nocompatible
-set termencoding=utf8 " Кодировка текста по умолчанию utf8
-set ruler	" Показывать положение курсора всё время.
-set showcmd	" Показывать незавершённые команды в статусбаре
+set termencoding=utf8 
+set ruler	
+set showcmd	
 set foldenable
 set foldlevel=100
 set foldmethod=indent
 set mouse=a
 set mousemodel=popup
 set hidden
-set guioptions-=T " Скрыть панель в gui версии
+set guioptions-=T 
 set ch=1	 
 set mousehide
 set autoindent
@@ -23,11 +35,31 @@ highlight CursorLine guibg=lightblue ctermbg=lightgray
 highlight CursorLine term=none cterm=none
 set history=200
 set wildmenu
-set clipboard=unnamed
-
+set clipboard=unnamedplus
+" set clipboard=unnamed
+set t_Co=256
+" set t_te=
+" set t_ti=
+hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=green
 au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
-au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
-hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
+au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=green
+
+if executable("xsel")
+
+  function! PreserveClipboard()
+    call system("xsel -ib", getreg('+'))
+  endfunction
+
+  function! PreserveClipboadAndSuspend()
+    call PreserveClipboard()
+    suspend
+  endfunction
+
+  autocmd VimLeave * call PreserveClipboard()
+  nnoremap <silent> <c-z> :call PreserveClipboadAndSuspend()<cr>
+  vnoremap <silent> <c-z> :<c-u>call PreserveClipboadAndSuspend()<cr>
+
+endif
 
 let g:currentmode={
 \ 'n'  : 'Normal',
@@ -68,7 +100,31 @@ set statusline+=%1*\ ln:\ %02l/%L\ (%3p%%)\              " Line number / total l
 set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
 
 
+" hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
 hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
 hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
 hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
 hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
+
+" Key binding 
+" Search in Text Ctrl+R
+vnoremap <silent>* <ESC>:call VisualSearch()<CR>/<C-R>/<CR>
+vnoremap <silent># <ESC>:call VisualSearch()<CR>?<C-R>/<CR>
+
+" Save file F2
+nmap <F2> :w<cr>
+vmap <F2> <esc>:w<cr>i
+imap <F2> <esc>:w<cr>i
+
+" nnoremap <C-PageUp> :tabprevious<CR>
+" nnoremap <C-PageDown> :tabnext<CR>
+
+" Copy in system buffer
+vnoremap <C-C> "+y
+map <C-V>      "+gP
+
+vnoremap p "_dP
+" Plugins o:
+
+filetype plugin on
+

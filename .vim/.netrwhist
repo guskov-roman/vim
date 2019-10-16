@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/devel/Project/stm32mp1/u-boot/uboot-source/arch/arm/dts'
+let g:netrw_dirhist_2='/home/devel/Project/stm32mp1/U-Boot/flashlayout/av96/scripts'
+let g:netrw_dirhist_3='/home/devel/Project/stm32mp1/Linux-Kernel'
