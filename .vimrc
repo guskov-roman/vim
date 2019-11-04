@@ -1,10 +1,14 @@
 set number	
-"set termguicolors
+set background=dark
+set termguicolors
+" set color themes ayu
 "let ayucolor="light"  " for light version of theme
 "let ayucolor="mirage" " for mirage version of theme
-"let ayucolor="dark"   " for dark version of theme
-"colorscheme ayu
-colorscheme jellybeans
+let ayucolor="dark"   " for dark version of theme
+colorscheme ayu
+" 
+" colorscheme deep-space
+" colorscheme jellybeans
 syntax on	
 set scrolloff=3
 set wrap
@@ -116,6 +120,8 @@ nmap <F2> :w<cr>
 vmap <F2> <esc>:w<cr>i
 imap <F2> <esc>:w<cr>i
 
+set pastetoggle=<F3>
+
 " nnoremap <C-PageUp> :tabprevious<CR>
 " nnoremap <C-PageDown> :tabnext<CR>
 
@@ -123,8 +129,17 @@ imap <F2> <esc>:w<cr>i
 vnoremap <C-C> "+y
 map <C-V>      "+gP
 
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+
 vnoremap p "_dP
 " Plugins o:
 
 filetype plugin on
 
+
+if &term =~ '256color'
+    " Disable Background Color Erase (BCE) so that color schemes
+    " work properly when Vim is used inside tmux and GNU screen.
+    set t_ut=
+endif
