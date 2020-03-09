@@ -1,7 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/home/devel/Project/stm32mp1/u-boot/uboot-source/arch/arm/dts'
-let g:netrw_dirhist_2='/home/devel/Project/stm32mp1/U-Boot/flashlayout/av96/scripts'
-let g:netrw_dirhist_3='/home/devel/Project/stm32mp1/Linux-Kernel'
-let g:netrw_dirhist_4='/home/devel/Project/stm32mp1/U-Boot/Makefile'
-let g:netrw_dirhist_5='/home/devel/Project/STM32MP1/STM32CubeMX/DHCOR-TFBGA361-Avenger96-HW200/CA7/DeviceTree/DHCOR-TFBGA361-Avenger96-HW200/u-boot'
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/home/devel/Project/Teststand/InfoWin/bundles/qml'
+let g:netrw_dirhist_2='/home/devel/Project/Teststand/Avenger96/bundles/Avenger96-Bundles/device'
+let g:netrw_dirhist_3='/home/devel/Project/Teststand/Avenger96/bundles/Avenger96-Bundles/base'
+let g:netrw_dirhist_4='/home/devel/Project/Teststand/Bundles/qml'
+let g:netrw_dirhist_5='/home/devel/Project/Teststand/Bundles/base'
+let g:netrw_dirhist_6='/home/devel/Project/Teststand/STM32MP1/bundles/base'
+let g:netrw_dirhist_7='/home/devel/Project/Teststand/DHCOMX/bundles'
+let g:netrw_dirhist_8='/home/devel/Project/Teststand/DHCOMX/bundles/base'
