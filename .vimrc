@@ -1,15 +1,5 @@
-set number	
-set background=dark
-set termguicolors
-" set color themes ayu
-"let ayucolor="light"  " for light version of theme
-"let ayucolor="mirage" " for mirage version of theme
-let ayucolor="dark"   " for dark version of theme
-colorscheme ayu
-" 
-" colorscheme deep-space
-" colorscheme jellybeans
 syntax on	
+set number	
 set scrolloff=3
 set wrap
 set showmatch
@@ -42,8 +32,22 @@ set wildmenu
 set clipboard=unnamedplus
 " set clipboard=unnamed
 set t_Co=256
-" set t_te=
-" set t_ti=
+set splitbelow
+
+set backspace=indent,eol,start
+
+
+" If you have vim >=8.0 or Neovim >= 0.1.5
+if (has("termguicolors"))
+ set termguicolors
+endif
+
+if &term =~ '256color'
+    " Disable Background Color Erase (BCE) so that color schemes
+    " work properly when Vim is used inside tmux and GNU screen.
+    set t_ut=
+endif
+
 hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=green
 au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
 au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=green
@@ -65,52 +69,12 @@ if executable("xsel")
 
 endif
 
-let g:currentmode={
-\ 'n'  : 'Normal',
-\ 'no' : 'Normal·Operator Pending',
-\ 'v'  : 'Visual',
-\ 'V'  : 'V·Line',
-\ '^V' : 'V·Block',
-\ 's'  : 'Select',
-\ 'S'  : 'S·Line',
-\ '^S' : 'S·Block',
-\ 'i'  : 'Insert',
-\ 'R'  : 'Replace',
-\ 'Rv' : 'V·Replace',
-\ 'c'  : 'Command',
-\ 'cv' : 'Vim Ex',
-\ 'ce' : 'Ex',
-\ 'r'  : 'Prompt',
-\ 'rm' : 'More',
-\ 'r?' : 'Confirm',
-\ '!'  : 'Shell',
-\ 't'  : 'Terminal'
-\}
-
-set laststatus=2
-set noshowmode
-set statusline=
-set statusline+=%0*\ %n\                                 " Buffer number
-set statusline+=%1*\ %<%F%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
-set statusline+=%3*│                                     " Separator
-set statusline+=%2*\ %Y\                                 " FileType
-set statusline+=%3*│                                     " Separator
-set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
-set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
-set statusline+=%=                                       " Right Side
-set statusline+=%2*\ col:\ %02v\                         " Colomn number
-set statusline+=%3*│                                     " Separator
-set statusline+=%1*\ ln:\ %02l/%L\ (%3p%%)\              " Line number / total lines, percentage of document
-set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
-
-
-" hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
-hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
-hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
-hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
-hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
-
 " Key binding 
+"
+" Disable Replace Mode
+" imap <Insert> <Nop>
+" inoremap <S-Insert> <Insert>
+
 " Search in Text Ctrl+R
 vnoremap <silent>* <ESC>:call VisualSearch()<CR>/<C-R>/<CR>
 vnoremap <silent># <ESC>:call VisualSearch()<CR>?<C-R>/<CR>
@@ -120,10 +84,10 @@ nmap <F2> :w<cr>
 vmap <F2> <esc>:w<cr>i
 imap <F2> <esc>:w<cr>i
 
-set pastetoggle=<F3>
+nmap <F3> :noh<cr>
 
-" nnoremap <C-PageUp> :tabprevious<CR>
-" nnoremap <C-PageDown> :tabnext<CR>
+nnoremap <C-PageUp> :tabprevious<CR>
+nnoremap <C-PageDown> :tabnext<CR>
 
 " Copy in system buffer
 vnoremap <C-C> "+y
@@ -133,13 +97,98 @@ vmap <Tab> >gv
 vmap <S-Tab> <gv
 
 vnoremap p "_dP
-" Plugins o:
 
+autocmd InsertEnter * set cul
+autocmd InsertLeave * set nocul
+
+let mapleader = ","
+" -----------Buffer Management---------------
+set hidden " Allow buffers to be hidden if you've modified a buffer
+" Move to the next buffer
+nmap <leader>l :bnext<CR>
+" Move to the previous buffer
+nmap <leader>h :bprevious<CR>
+" Close the current buffer and move to the previous one
+" This replicates the idea of closing a tab
+nmap <leader>q :bp <BAR> bd #<CR>
+" Show all open buffers and their status
+nmap <leader>bl :ls<CR>
+
+" Plugins o:
 filetype plugin on
 
-
-if &term =~ '256color'
-    " Disable Background Color Erase (BCE) so that color schemes
-    " work properly when Vim is used inside tmux and GNU screen.
-    set t_ut=
+" automatically downloads vim-plug to your machine if not found.
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
+" Define plugins to install
+call plug#begin('~/.vim/plugged')
+
+Plug 'vim-airline/vim-airline'
+" Optional
+Plug 'vim-airline/vim-airline-themes'
+
+" Color scheme
+Plug 'jacoborus/tender.vim'
+Plug 'kristijanhusak/vim-hybrid-material'
+
+" Browse the file system
+Plug 'scrooloose/nerdtree'
+
+" Ctrlp
+Plug 'kien/ctrlp.vim'
+
+" All of your Plugins must be added before the following line
+call plug#end()
+
+" ------------------------------------------------------------------------------ "
+" 				Pugins settings" 				 "
+" ------------------------------------------------------------------------------ "
+"
+" Airline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
+let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline_highlighting_cache = 1
+let g:airline_section_warning=' '
+
+" ctrl-p
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
+
+" Use the nearest .git|.svn|.hg|.bzr directory as the cwd
+let g:ctrlp_working_path_mode = 'r'
+nmap <leader>p :CtrlP<cr>  " enter file search mode
+
+" ------------------------------ Nerdtree  ------------------------------------
+let NERDTreeShowHidden=1
+" autocmd vimenter * NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+map <C-n> :NERDTreeToggle<CR>  " open and close file tree
+nmap <leader>n :NERDTreeFind<CR>  " open current buffer in file tree
+
+" ------------------------------------------------------------------------------ "
+" 				Color scheme" 				 	 "
+" ------------------------------------------------------------------------------ "
+
+" let g:airline_theme='angr'
+" let g:airline_theme='tender'
+let g:airline_theme='onehalfdark'
+" let g:airline_theme='onehalflight'
+
+"colorscheme tender
+"colorscheme onehalfdark
+"colorscheme onehalflight
+"colorscheme jellybeans
+colorscheme PaperColor
+
+" set background=dark
+" colorscheme hybrid_material
