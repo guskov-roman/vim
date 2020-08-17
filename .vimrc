@@ -33,9 +33,10 @@ set clipboard=unnamedplus
 " set clipboard=unnamed
 set t_Co=256
 set splitbelow
-
 set backspace=indent,eol,start
-
+set laststatus=2
+set showtabline=2
+set noshowmode
 
 " If you have vim >=8.0 or Neovim >= 0.1.5
 if (has("termguicolors"))
@@ -47,10 +48,6 @@ if &term =~ '256color'
     " work properly when Vim is used inside tmux and GNU screen.
     set t_ut=
 endif
-
-hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=green
-au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
-au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=green
 
 if executable("xsel")
 
@@ -69,8 +66,8 @@ if executable("xsel")
 
 endif
 
-" Key binding 
 "
+" Key binding 
 " Disable Replace Mode
 " imap <Insert> <Nop>
 " inoremap <S-Insert> <Insert>
@@ -86,8 +83,12 @@ imap <F2> <esc>:w<cr>i
 
 nmap <F3> :noh<cr>
 
-nnoremap <C-PageUp> :tabprevious<CR>
-nnoremap <C-PageDown> :tabnext<CR>
+" Tab navigation like Firefox: only 'open new tab' works in terminal
+nnoremap <C-t>     :tabnew<CR>
+inoremap <C-t>     <Esc>:tabnew<CR>
+" nnoremap <C-Left> :tabprevious<CR>
+" nnoremap <C-Right> :tabnext<CR>
+
 
 " Copy in system buffer
 vnoremap <C-C> "+y
@@ -112,7 +113,8 @@ nmap <leader>h :bprevious<CR>
 " This replicates the idea of closing a tab
 nmap <leader>q :bp <BAR> bd #<CR>
 " Show all open buffers and their status
-nmap <leader>bl :ls<CR>
+" nmap <leader>bl :ls<CR>
+nmap <leader>s :ls<CR>
 
 " Plugins o:
 filetype plugin on
@@ -127,9 +129,8 @@ endif
 " Define plugins to install
 call plug#begin('~/.vim/plugged')
 
-Plug 'vim-airline/vim-airline'
-" Optional
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
 
 " Color scheme
 Plug 'jacoborus/tender.vim'
@@ -148,13 +149,35 @@ call plug#end()
 " 				Pugins settings" 				 "
 " ------------------------------------------------------------------------------ "
 "
-" Airline
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
-let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline_highlighting_cache = 1
-let g:airline_section_warning=' '
+autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+
+nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+nmap <Leader>9 <Plug>lightline#bufferline#go(9)
+nmap <Leader>0 <Plug>lightline#bufferline#go(10)
+
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#unnamed      = '[No Name]'
+
+let g:lightline                  = {}
+let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type   = {'buffers': 'tabsel'}
+
+"let g:lightline.colorscheme 	 = 'ayu_mirage'
+"let g:lightline.colorscheme 	 = 'PaperColor_dark'
+"let g:lightline.colorscheme 	 = 'Tomorrow_Night'
+"let g:lightline.colorscheme 	 = 'Tomorrow_Night_Eighties'
+"let g:lightline.colorscheme 	 = 'PaperColor_light'
+"let g:lightline.colorscheme 	 = 'one'
+let g:lightline.colorscheme 	 = 'wombat'
 
 " ctrl-p
 let g:ctrlp_custom_ignore = {
@@ -179,16 +202,18 @@ nmap <leader>n :NERDTreeFind<CR>  " open current buffer in file tree
 " 				Color scheme" 				 	 "
 " ------------------------------------------------------------------------------ "
 
-" let g:airline_theme='angr'
-" let g:airline_theme='tender'
-let g:airline_theme='onehalfdark'
-" let g:airline_theme='onehalflight'
+colorscheme tender
+" colorscheme onehalfdark
+" colorscheme onehalflight
+" colorscheme jellybeans
+" colorscheme deep-space
+" colorscheme deus
+" colorscheme gruvbox
+" colorscheme archery
 
-"colorscheme tender
-"colorscheme onehalfdark
-"colorscheme onehalflight
-"colorscheme jellybeans
-colorscheme PaperColor
-
+"set background=light
 " set background=dark
-" colorscheme hybrid_material
+"colorscheme PaperColor
+
+"set background=dark
+"colorscheme hybrid_material
