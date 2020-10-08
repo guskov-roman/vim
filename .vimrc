@@ -37,6 +37,8 @@ set backspace=indent,eol,start
 set laststatus=2
 set showtabline=2
 set noshowmode
+set colorcolumn=81
+highlight ColorColumn ctermbg=Black ctermfg=DarkRed
 
 " If you have vim >=8.0 or Neovim >= 0.1.5
 if (has("termguicolors"))
@@ -198,11 +200,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 map <C-n> :NERDTreeToggle<CR>  " open and close file tree
 nmap <leader>n :NERDTreeFind<CR>  " open current buffer in file tree
 
-" ------------------------------------------------------------------------------ "
-" 				Color scheme" 				 	 "
-" ------------------------------------------------------------------------------ "
+" ---------------------------------------------------------------------------- "
+" 				Color scheme" 				       "
+" ---------------------------------------------------------------------------- "
 
-colorscheme tender
+" colorscheme tender
 " colorscheme onehalfdark
 " colorscheme onehalflight
 " colorscheme jellybeans
@@ -215,5 +217,5 @@ colorscheme tender
 " set background=dark
 "colorscheme PaperColor
 
-"set background=dark
-"colorscheme hybrid_material
+set background=dark
+colorscheme hybrid_material
