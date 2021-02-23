@@ -33,7 +33,9 @@ set backspace=indent,eol,start
 set laststatus=2
 set showtabline=2
 set noshowmode
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
+set clipboard=unnamed,unnamedplus
+set cursorline
 
 " ##############################################################################
 " 				 Plugins setting
@@ -98,17 +100,18 @@ call plug#begin('~/.vim/plugged')
 " Browse the file system
 Plug 'scrooloose/nerdtree'
 
-" Ctrlp
 Plug 'kien/ctrlp.vim'
 Plug 'dr-kino/cscope-maps'
 Plug 'ronakg/quickr-cscope.vim'
 Plug 'preservim/tagbar'
 Plug 'craigemery/vim-autotag'
+Plug 'svermeulen/vim-easyclip'
 
 " Color scheme
 Plug 'jacoborus/tender.vim'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'morhetz/gruvbox'
+Plug 'sonph/onehalf', {'rtp': 'vim' }
 
 " Lightline status line and buffer
 Plug 'itchyny/lightline.vim'
@@ -139,6 +142,9 @@ map <S-Insert>  "+gP
 
 cmap <C-V>      <C-R>+
 cmap <S-Insert> <C-R>+
+
+:inoremap <c-left> <esc>vb
+:inoremap <c-right> <esc>ve
 
 if executable("xsel")
 
@@ -193,6 +199,7 @@ let g:lightline.component_type   = {'buffers': 'tabsel'}
 "let g:lightline.colorscheme 	 = 'PaperColor_light'
 "let g:lightline.colorscheme 	 = 'one'
 let g:lightline.colorscheme 	 = 'wombat'
+
 
 
 " ############################################################################## 
@@ -262,7 +269,7 @@ endif
 " 				Color settings
 " ##############################################################################
 "
-" If you have vim >=8.0 or Neovim >= 0.1.5
+" If you have vim >=8.0
 if (has("termguicolors"))
      set termguicolors
 endif
@@ -288,8 +295,25 @@ nmap <leader>s :ls<CR>
 " 				 Set color schema
 " ##############################################################################
 
-set background=dark
-let g:enable_italic_font = 1
-" let g:hybrid_transparent_background = 1
-colorscheme hybrid_material
+"set background=dark
+"let g:enable_italic_font = 1
+"let g:hybrid_transparent_background = 1
+"colorscheme hybrid_material
 
+"let g:gruvbox_contrast_dark = 'hard'
+"let g:gruvbox_italic = 1
+"colorscheme gruvbox
+"set background=dark
+
+"colorscheme gruvbox
+"let g:gruvbox_contrast_light = 'soft'
+"let g:gruvbox_italic = 1
+
+"colorscheme tender
+
+colorscheme onehalfdark
+let g:lightline.colorscheme 	 = 'onehalfdark'
+
+"colorscheme onehalflight
+"set cursorline
+"let g:lightline.colorscheme 	 = 'onehalflight'
